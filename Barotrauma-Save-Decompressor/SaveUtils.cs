@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
@@ -30,9 +31,7 @@ namespace Barotrauma_Save_Decompressor
             char[] chars = sRelativePath.ToCharArray();
             zipStream.Write(BitConverter.GetBytes(chars.Length), 0, sizeof(int));
             foreach (char c in chars)
-            {
                 zipStream.Write(BitConverter.GetBytes(c), 0, sizeof(char));
-            }
 
             //Compress file content
             byte[] bytes = File.ReadAllBytes(Path.Combine(sDir, sRelativePath));
@@ -42,18 +41,16 @@ namespace Barotrauma_Save_Decompressor
 
         public static void CompressDirectory(string sInDir, string sOutFile)
         {
-            string[] sFiles = Directory.GetFiles(sInDir, "*.*", SearchOption.AllDirectories);
+            IEnumerable<string> sFiles = Directory.GetFiles(sInDir, "*.*", System.IO.SearchOption.AllDirectories);
             int iDirLen = sInDir[sInDir.Length - 1] == Path.DirectorySeparatorChar ? sInDir.Length : sInDir.Length + 1;
 
-            using (FileStream outFile = new FileStream(sOutFile, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (FileStream outFile = File.Open(sOutFile, System.IO.FileMode.Create, System.IO.FileAccess.Write))
             using (GZipStream str = new GZipStream(outFile, CompressionMode.Compress))
-            {
                 foreach (string sFilePath in sFiles)
                 {
                     string sRelativePath = sFilePath.Substring(iDirLen);
                     CompressFile(sInDir, sRelativePath, str);
                 }
-            }
         }
 
         public static bool DecompressFile(string sDir, GZipStream zipStream)
@@ -62,9 +59,7 @@ namespace Barotrauma_Save_Decompressor
             byte[] bytes = new byte[sizeof(int)];
             int Readed = zipStream.Read(bytes, 0, sizeof(int));
             if (Readed < sizeof(int))
-            {
                 return false;
-            }
 
             int iNameLen = BitConverter.ToInt32(bytes, 0);
             if (iNameLen > 255)
@@ -93,22 +88,20 @@ namespace Barotrauma_Save_Decompressor
             string sFilePath = Path.Combine(sDir, sFileName);
             string sFinalDir = Path.GetDirectoryName(sFilePath);
             if (!Directory.Exists(sFinalDir))
-            {
                 Directory.CreateDirectory(sFinalDir);
-            }
 
             int maxRetries = 4;
             for (int i = 0; i <= maxRetries; i++)
             {
                 try
                 {
-                    using (FileStream outFile = new FileStream(sFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    using (FileStream outFile = File.Open(sFilePath, System.IO.FileMode.Create, System.IO.FileAccess.Write))
                     {
                         outFile.Write(bytes, 0, iFileLen);
                     }
                     break;
                 }
-                catch (IOException e)
+                catch (System.IO.IOException e)
                 {
                     if (i >= maxRetries || !File.Exists(sFilePath)) { throw; }
                     Console.WriteLine("Failed decompress file \"" + sFilePath + "\" {" + e.Message + "}, retrying in 250 ms...");
@@ -117,7 +110,6 @@ namespace Barotrauma_Save_Decompressor
             }
             return true;
         }
-
         public static void DecompressToDirectory(string sCompressedFile, string sDir)
         {
             Console.WriteLine("Decompressing " + sCompressedFile + " to " + sDir + "...");
@@ -126,15 +118,13 @@ namespace Barotrauma_Save_Decompressor
             {
                 try
                 {
-                    using (FileStream inFile = new FileStream(sCompressedFile, FileMode.Open, FileAccess.Read, FileShare.None))
+                    using (FileStream inFile = File.Open(sCompressedFile, System.IO.FileMode.Open, System.IO.FileAccess.Read))
                     using (GZipStream zipStream = new GZipStream(inFile, CompressionMode.Decompress, true))
-                    {
-                        while (DecompressFile(sDir, zipStream)) { }
-                    };
+                        while (DecompressFile(sDir, zipStream)) { };
 
                     break;
                 }
-                catch (IOException e)
+                catch (System.IO.IOException e)
                 {
                     if (i >= maxRetries || !File.Exists(sCompressedFile)) { throw; }
                     Console.WriteLine("Failed decompress file \"" + sCompressedFile + "\" {" + e.Message + "}, retrying in 250 ms...");
