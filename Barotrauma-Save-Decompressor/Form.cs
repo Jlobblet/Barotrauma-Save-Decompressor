@@ -17,6 +17,7 @@ namespace Barotrauma_Save_Decompressor
         {
             InitializeComponent();
             Console.SetOut(new MultiTextWriter(new ControlWriter(OutputBox), Console.Out));
+            Console.Out.NewLine = "\n";
         }
 
         private void DecompressForm_Load(object sender, EventArgs e)
