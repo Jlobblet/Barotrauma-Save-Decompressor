@@ -135,6 +135,7 @@
             this.OutputBox.Size = new System.Drawing.Size(574, 270);
             this.OutputBox.TabIndex = 8;
             this.OutputBox.Text = "";
+            this.OutputBox.TextChanged += new System.EventHandler(this.OutputBox_TextChanged);
             // 
             // Form
             // 

@@ -17,6 +17,7 @@ namespace Barotrauma_Save_Decompressor
         {
             InitializeComponent();
             Console.SetOut(new MultiTextWriter(new ControlWriter(OutputBox), Console.Out));
+            Console.Out.NewLine = "\n";
         }
 
         private void DecompressForm_Load(object sender, EventArgs e)
@@ -106,6 +107,12 @@ namespace Barotrauma_Save_Decompressor
         private void CompressSection_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void OutputBox_TextChanged(object sender, EventArgs e)
+        {
+            OutputBox.SelectionStart = OutputBox.Text.Length;
+            OutputBox.ScrollToCaret();
         }
     }
 }
