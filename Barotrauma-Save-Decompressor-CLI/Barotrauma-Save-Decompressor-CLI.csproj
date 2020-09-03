@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>Barotrauma_Save_Decompressor_CLI</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Jlobblet</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Barotrauma-Save-Decompressor-Backend\Barotrauma-Save-Decompressor-Backend.csproj" />
+    </ItemGroup>
+
+</Project>
