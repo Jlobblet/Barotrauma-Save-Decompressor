@@ -13,6 +13,7 @@ namespace Barotrauma_Save_Decompressor_Form
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.Run(new Form());
         }
     }
