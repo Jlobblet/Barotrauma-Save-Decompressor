@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using static Barotrauma_Save_Decompressor_Backend.CompressionUtil;
 
 namespace Barotrauma_Save_Decompressor_Form
 {
@@ -22,18 +23,12 @@ namespace Barotrauma_Save_Decompressor_Form
 
         private void DecompressForm_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void DecompressButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Decompressing " + DecompressDirectory);
-            string newDir;
-            newDir = Path.Combine(DecompressDirectory, Path.GetFileNameWithoutExtension(DecompressFilePath));
-            Directory.CreateDirectory(newDir);
-            SaveUtils.DecompressToDirectory(DecompressFilePath, newDir);
-            Console.WriteLine("Decompressed to " + newDir);
-            Console.WriteLine("Success");
+            DecompressToDirectory(DecompressFilePath, DecompressDirectory);
         }
 
         private void OpenFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -43,24 +38,16 @@ namespace Barotrauma_Save_Decompressor_Form
 
         private void DecompressBrowseButton_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog()
+            string filepath = FormUtil.ShowFileBrowserDialog();
+
+            if (filepath == "")
             {
-                InitialDirectory = SaveUtils.SaveFolder,
-
-                EnsureFileExists = true,
-                EnsurePathExists = true,
-
-                DefaultExtension = "save",
-
-                ShowHiddenItems = true,
-            };
-
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                DecompressFilePath = dialog.FileName;
-                DecompressDirectory = Path.GetDirectoryName(DecompressFilePath);
-                DecompressFilePathBox.Text = DecompressFilePath;
+                return;
             }
+
+            DecompressFilePath = filepath;
+            DecompressDirectory = Path.GetDirectoryName(DecompressFilePath);
+            DecompressFilePathBox.Text = DecompressFilePath;
         }
 
         private void DecompressSection_Click(object sender, EventArgs e)
@@ -75,32 +62,21 @@ namespace Barotrauma_Save_Decompressor_Form
 
         private void CompressButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Compressing " + CompressDirectory);
-            SaveUtils.CompressDirectory(CompressDirectory, CompressFilePath);
-            Console.WriteLine("Compressed to " + CompressFilePath);
-            Console.WriteLine("Success");
+            CompressDirectory(CompressDirectory, CompressFilePath);
         }
 
         private void CompressBrowseButton_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog()
+            string filepath = FormUtil.ShowFolderBrowserDialog();
+
+            if (filepath == "")
             {
-                InitialDirectory = SaveUtils.SaveFolder,
-
-                EnsureFileExists = true,
-                EnsurePathExists = true,
-
-                IsFolderPicker = true,
-
-                ShowHiddenItems = true,
-            };
-
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                CompressDirectory = dialog.FileName;
-                CompressFilePath = Path.Combine(Path.GetDirectoryName(CompressDirectory), Path.GetFileName(CompressDirectory) + ".save");
-                CompressFilePathBox.Text = CompressDirectory;
+                return;
             }
+            
+            CompressDirectory = filepath;
+            CompressFilePath = Path.GetDirectoryName(CompressDirectory);
+            CompressFilePathBox.Text = CompressDirectory;
 
         }
 

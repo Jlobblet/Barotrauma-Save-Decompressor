@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barotrauma-Save-Decompressor", "Barotrauma-Save-Decompressor\Barotrauma-Save-Decompressor.csproj", "{6DD3A1FC-CA4B-453C-A46B-53EF0CABD160}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barotrauma-Save-Decompressor-Backend", "Barotrauma-Save-Decompressor-Backend\Barotrauma-Save-Decompressor-Backend.csproj", "{66FFB6EA-D3EA-40E2-B15D-83F6A02B1BE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6DD3A1FC-CA4B-453C-A46B-53EF0CABD160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD3A1FC-CA4B-453C-A46B-53EF0CABD160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD3A1FC-CA4B-453C-A46B-53EF0CABD160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FFB6EA-D3EA-40E2-B15D-83F6A02B1BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FFB6EA-D3EA-40E2-B15D-83F6A02B1BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FFB6EA-D3EA-40E2-B15D-83F6A02B1BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FFB6EA-D3EA-40E2-B15D-83F6A02B1BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
