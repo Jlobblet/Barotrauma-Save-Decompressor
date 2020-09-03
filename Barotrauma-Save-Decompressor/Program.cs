@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Barotrauma_Save_Decompressor
+namespace Barotrauma_Save_Decompressor_Form
 {
     internal static class Program
     {

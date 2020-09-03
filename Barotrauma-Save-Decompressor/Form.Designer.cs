@@ -1,4 +1,4 @@
-﻿namespace Barotrauma_Save_Decompressor
+﻿namespace Barotrauma_Save_Decompressor_Form
 {
     partial class Form
     {

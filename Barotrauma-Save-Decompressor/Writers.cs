@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Barotrauma_Save_Decompressor
+namespace Barotrauma_Save_Decompressor_Form
 {
     public class ControlWriter : TextWriter
     {

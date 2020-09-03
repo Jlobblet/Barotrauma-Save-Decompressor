@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 
-namespace Barotrauma_Save_Decompressor
+namespace Barotrauma_Save_Decompressor_Form
 {
     public partial class Form : System.Windows.Forms.Form
     {
