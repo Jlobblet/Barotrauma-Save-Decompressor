@@ -3,7 +3,7 @@ Decompress and compress Barotrauma save files.
 ## Acknowledgement
 Many thanks to Undertow Games for writing [the code that made this possible](https://github.com/Regalis11/Barotrauma/blob/master/Barotrauma/BarotraumaShared/SharedSource/Utils/SaveUtil.cs).
 ## Prerequisites
-Microsoft .NET Framework 4.7.2
+Microsoft .NET Core 3.1
 ## Installation
 Either build the project from source, or download a compressed executable from the latest release. The included `.dll` files must be within the same directory as the executable.  
 ## Usage
