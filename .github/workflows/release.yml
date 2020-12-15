@@ -6,8 +6,9 @@ on:
 
 jobs:
   build:
-    env:
-      PROJECT_NAME: Barotrauma-Save-Decompressor
+    strategy:
+        matrix:
+            PROJECT_NAME: Barotrauma-Save-Decompressor
 
     runs-on: windows-latest
 
@@ -22,13 +23,13 @@ jobs:
     - name: Install depencencies
       run: dotnet restore
     - name: Build Windows
-      run: dotnet publish --configuration Release --no-restore --output "./build_output/${PROJECT_NAME}"
+      run: dotnet publish --configuration Release --no-restore --output "./build_output/${{ strategy.matrix.PROJECT_NAME }}"
     - name: Zip Binary
       id: zip_binary
       run: |
-        7z a "${PROJECT_NAME}.zip" "./build_output/${PROJECT_NAME}"
-        echo "::set-output name=binary_path::${PROJECT_NAME}.zip"
-        echo "::set-output name=asset_name::${PROJECT_NAME}.zip"
+        7z a "${{ strategy.matrix.PROJECT_NAME }}.zip" "./build_output/${{ strategy.matrix.PROJECT_NAME }}"
+        echo "::set-output name=binary_path::${{ strategy.matrix.PROJECT_NAME }}.zip"
+        echo "::set-output name=asset_name::${{ strategy.matrix.PROJECT_NAME }}.zip"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
