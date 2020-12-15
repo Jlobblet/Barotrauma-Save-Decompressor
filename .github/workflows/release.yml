@@ -27,7 +27,7 @@ jobs:
       id: zip_binary
       run: |
         cd ./build_output
-        zip -r "${PROJECT_NAME}.zip" "${PROJECT_NAME}"
+        7z a "${PROJECT_NAME}.zip" -r "${PROJECT_NAME}"
         echo "::set-output name=binary_path::$(readlink -f ${PROJECT_NAME}.zip)"
         echo "::set-output name=asset_name::${PROJECT_NAME}.zip"
         cd -
