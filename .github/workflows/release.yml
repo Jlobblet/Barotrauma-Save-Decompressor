@@ -1,0 +1,51 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    env:
+      PROJECT_NAME: Barotrauma-Save-Decompressor
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create release notes
+      run: git log --pretty=oneline --abbrev-commit --no-decorate --no-color "$(git describe --tags --abbrev=0)..HEAD" > /tmp/release-notes
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.403
+    - name: Install depencencies
+      run: dotnet restore
+    - name: Build Windows
+      run: dotnet publish --configuration Release --no-restore --runtime win-x64 --output "./build_output/${PROJECT_NAME}"
+    - name: Zip Binary
+      id: zip_binary
+      run: |
+        cd ./build_output
+        zip -r "${PROJECT_NAME}.zip" "${PROJECT_NAME}"
+        echo "::set-output name=binary_path::$(readlink -f ${PROJECT_NAME}.zip)"
+        echo "::set-output name=asset_name::${PROJECT_NAME}.zip"
+        cd -
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        body_path: /tmp/release-notes
+    - name: Upload Binary
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.zip_binary.outputs.binary_path }}
+        asset_name: ${{ steps.zip_binary.outputs.asset_name }}
+        asset_content_type: application/zip
