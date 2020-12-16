@@ -28,7 +28,7 @@ jobs:
       id: zip_binary
       run: |
         cd ./build_output/
-        7z a "${{ matrix.project_name }}.zip" "${{ matrix.project_name }}"
+        7z a "../${{ matrix.project_name }}.zip" "${{ matrix.project_name }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
