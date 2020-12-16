@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
         matrix:
-            PROJECT_NAME: Barotrauma-Save-Decompressor
+            PROJECT_NAME: "Barotrauma-Save-Decompressor"
 
     runs-on: windows-latest
 
