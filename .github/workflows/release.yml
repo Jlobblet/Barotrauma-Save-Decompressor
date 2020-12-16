@@ -27,9 +27,8 @@ jobs:
     - name: Zip Binary
       id: zip_binary
       run: |
-        7z a "${{ strategy.matrix.PROJECT_NAME }}.zip" "./build_output/${{ strategy.matrix.PROJECT_NAME }}"
-        echo "::set-output name=binary_path::${{ strategy.matrix.PROJECT_NAME }}.zip"
-        echo "::set-output name=asset_name::${{ strategy.matrix.PROJECT_NAME }}.zip"
+        cd ./build_output/
+        7z a "${{ strategy.matrix.PROJECT_NAME }}.zip" "${{ strategy.matrix.PROJECT_NAME }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -45,6 +44,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ steps.zip_binary.outputs.binary_path }}
-        asset_name: ${{ steps.zip_binary.outputs.asset_name }}
+        asset_path: ${{ strategy.matrix.PROJECT_NAME }}.zip
+        asset_name: ${{ strategy.matrix.PROJECT_NAME }}.zip
         asset_content_type: application/zip
