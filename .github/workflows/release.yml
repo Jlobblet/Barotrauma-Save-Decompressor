@@ -23,12 +23,12 @@ jobs:
     - name: Install depencencies
       run: dotnet restore
     - name: Build Windows
-      run: dotnet publish --configuration Release --no-restore --output "./build_output/${{ strategy.matrix.project_name }}"
+      run: dotnet publish --configuration Release --no-restore --output "./build_output/${{ matrix.project_name }}"
     - name: Zip Binary
       id: zip_binary
       run: |
         cd ./build_output/
-        7z a "${{ strategy.matrix.project_name }}.zip" "${{ strategy.matrix.project_name }}"
+        7z a "${{ matrix.project_name }}.zip" "${{ matrix.project_name }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -44,6 +44,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ strategy.matrix.project_name }}.zip
-        asset_name: ${{ strategy.matrix.project_name }}.zip
+        asset_path: ${{ matrix.project_name }}.zip
+        asset_name: ${{ matrix.project_name }}.zip
         asset_content_type: application/zip
