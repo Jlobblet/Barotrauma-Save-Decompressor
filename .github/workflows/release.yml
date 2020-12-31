@@ -24,11 +24,15 @@ jobs:
       run: dotnet restore
     - name: Build Windows
       run: dotnet publish --configuration Release --no-restore --output "./build_output/${{ matrix.project_name }}"
+    - name: Build Self-Contained Windows
+      run: dotnet publish --configuration Release --runtime win-x64 --no-restore --output "./self_contained_build_output/${{ matrix.project_name }}"
     - name: Zip Binary
       id: zip_binary
       run: |
         cd ./build_output/
         7z a "../${{ matrix.project_name }}.zip" "${{ matrix.project_name }}"
+        cd ../self_contained_build_output/
+        7z a "../${{ matrix.project_name }}-Self-Contained.zip" "${{ matrix.project_name }}"
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -46,4 +50,13 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ matrix.project_name }}.zip
         asset_name: ${{ matrix.project_name }}.zip
+        asset_content_type: application/zip
+    - name: Upload Self-Contained Binary
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ matrix.project_name }}-Self-Contained.zip
+        asset_name: ${{ matrix.project_name }}-Self-Contained.zip
         asset_content_type: application/zip
