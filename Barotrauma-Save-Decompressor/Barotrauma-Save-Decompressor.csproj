@@ -7,6 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Jlobblet</Authors>
     <IsPackable>true</IsPackable>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <ApplicationVersion>1.3.0.0</ApplicationVersion>
   </PropertyGroup>
 
