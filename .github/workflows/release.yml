@@ -1,61 +1,84 @@
 name: Release
 on:
-  push:
-    tags:
-      - 'v*'
+    push:
+        tags:
+            - "v*"
 
 jobs:
-  build:
-    env:
-      project_name: Barotrauma-Save-Decompressor
+    create_release:
+        runs-on: ubuntu-latest
+        outputs:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+        steps:
+            -   name: Create release
+                id: create_release
+                uses: actions/create-release@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    tag_name: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
 
-    runs-on: ubuntu-latest
+    build:
+        needs: create_release
+        strategy:
+            matrix:
+                runtime:
+                    - win-x64
+                    - linux-x64
+                    - osx-x64
+        env:
+            DOTNET_CLI_TELEMETRY_OPTOUT: 1
+            DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+            project_name: Barotrauma-Save-Decompressor
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Create release notes
-      run: git log --pretty=oneline --abbrev-commit --no-decorate --no-color "$(git describe --tags --abbrev=0)..HEAD" > ./release-notes
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Install depencencies
-      run: dotnet restore
-    - name: Build Windows
-      run: dotnet publish --configuration Release --no-restore --output "./build_output/${{ env.project_name }}"
-    - name: Build Self-Contained Windows
-      run: dotnet publish --configuration Release --runtime win-x64 --no-restore --output "./self_contained_build_output/${{ env.project_name }}"
-    - name: Zip Binary
-      id: zip_binary
-      run: |
-        cd ./build_output/
-        7z a "../${{ env.project_name }}.zip" "${{ env.project_name }}"
-        cd ../self_contained_build_output/
-        7z a "../${{ env.project_name }}-Self-Contained.zip" "${{ env.project_name }}"
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-        body_path: ./release-notes
-    - name: Upload Binary
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ env.project_name }}.zip
-        asset_name: ${{ env.project_name }}.zip
-        asset_content_type: application/zip
-    - name: Upload Self-Contained Binary
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ env.project_name }}-Self-Contained.zip
-        asset_name: ${{ env.project_name }}-Self-Contained.zip
-        asset_content_type: application/zip
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup .NET
+                uses: actions/setup-dotnet@v1
+                with:
+                    dotnet-version: "6.0.x"
+
+            -   name: Install dependencies
+                run: dotnet restore
+
+            -   name: Build
+                run: |
+                    dotnet publish \
+                    --configuration Release \
+                    --no-restore \
+                    --self-contained \
+                    --runtime "${{ matrix.runtime }}" \
+                    --output "./build_output/${{ env.project_name }}"
+
+            -   name: Zip binary
+                id: zip_binary
+                run: |
+                    cd "./build_output"
+                    tar -cJf "../${{ env.project_name }}-${{ matrix.runtime }}.tar.xz" "${{ env.project_name }}"
+                    zip -r "../${{ env.project_name }}-${{ matrix.runtime}}.zip" "${{ env.project_name }}"
+                    echo "::set-output name=xz_path::$(readlink -f "../${{ env.project_name }}-${{ matrix.runtime }}.tar.xz")"
+                    echo "::set-output name=zip_path::$(readlink -f "../${{ env.project_name }}-${{ matrix.runtime }}.zip")"
+
+            -   name: Upload xz
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    upload_url: ${{ needs.create_release.outputs.upload_url }}
+                    asset_path: ${{ steps.zip_binary.outputs.xz_path }}
+                    asset_name: ${{ env.project_name }}-${{ matrix.runtime }}.tar.xz
+                    asset_content_type: application/zip
+
+            -   name: Upload zip
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    upload_url: ${{ needs.create_release.outputs.upload_url }}
+                    asset_path: ${{ steps.zip_binary.outputs.zip_path }}
+                    asset_name: ${{ env.project_name }}-${{ matrix.runtime }}.zip
+                    asset_content_type: application/zip
