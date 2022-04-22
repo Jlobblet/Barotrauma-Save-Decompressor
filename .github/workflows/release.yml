@@ -50,7 +50,6 @@ jobs:
                     dotnet publish \
                     --configuration Release \
                     --no-restore \
-                    --self-contained \
                     --runtime "${{ matrix.runtime }}" \
                     --output "./build_output/${{ env.project_name }}"
 

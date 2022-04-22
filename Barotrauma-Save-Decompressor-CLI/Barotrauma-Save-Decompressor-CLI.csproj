@@ -8,6 +8,11 @@
         <IsPackable>false</IsPackable>
         <Authors>Jlobblet</Authors>
         <ApplicationVersion>1.5.0.0</ApplicationVersion>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
+        <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
