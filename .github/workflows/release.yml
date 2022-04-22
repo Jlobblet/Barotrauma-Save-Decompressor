@@ -58,20 +58,8 @@ jobs:
                 id: zip_binary
                 run: |
                     cd "./build_output"
-                    tar -cJf "../${{ env.project_name }}-${{ matrix.runtime }}.tar.xz" "${{ env.project_name }}"
-                    zip -r "../${{ env.project_name }}-${{ matrix.runtime}}.zip" "${{ env.project_name }}"
-                    echo "::set-output name=xz_path::$(readlink -f "../${{ env.project_name }}-${{ matrix.runtime }}.tar.xz")"
+                    7z a "../${{ env.project_name }}-${{ matrix.runtime}}.zip" "${{ env.project_name }}"
                     echo "::set-output name=zip_path::$(readlink -f "../${{ env.project_name }}-${{ matrix.runtime }}.zip")"
-
-            -   name: Upload xz
-                uses: actions/upload-release-asset@v1
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                with:
-                    upload_url: ${{ needs.create_release.outputs.upload_url }}
-                    asset_path: ${{ steps.zip_binary.outputs.xz_path }}
-                    asset_name: ${{ env.project_name }}-${{ matrix.runtime }}.tar.xz
-                    asset_content_type: application/zip
 
             -   name: Upload zip
                 uses: actions/upload-release-asset@v1
