@@ -46,11 +46,11 @@ jobs:
                 run: dotnet restore
 
             -   name: Build
-                run: |
-                    dotnet publish \
-                    --configuration Release \
-                    --no-restore \
-                    --runtime "${{ matrix.runtime }}" \
+                run: >-
+                    dotnet publish
+                    --configuration Release
+                    --no-restore
+                    --runtime "${{ matrix.runtime }}"
                     --output "./build_output/${{ env.project_name }}"
 
             -   name: Zip binary
