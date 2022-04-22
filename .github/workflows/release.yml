@@ -25,8 +25,7 @@ jobs:
             matrix:
                 runtime:
                     - win-x64
-                    - linux-x64
-                    - osx-x64
+
         env:
             DOTNET_CLI_TELEMETRY_OPTOUT: 1
             DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
