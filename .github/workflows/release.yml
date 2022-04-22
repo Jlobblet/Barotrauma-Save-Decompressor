@@ -32,7 +32,7 @@ jobs:
             DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
             project_name: Barotrauma-Save-Decompressor
 
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
 
         steps:
             -   uses: actions/checkout@v2
