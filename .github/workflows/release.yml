@@ -51,6 +51,7 @@ jobs:
                     --configuration Release
                     --no-restore
                     --runtime "${{ matrix.runtime }}"
+                    --self-contained
                     --output "./build_output/${{ env.project_name }}"
 
             -   name: Zip binary
