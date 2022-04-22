@@ -23,7 +23,6 @@ namespace Barotrauma_Save_Decompressor_Backend
             IoUtil.DecompressToDirectory(inPath, newDir);
             Console.WriteLine($"Decompressed to {newDir}...");
             Console.WriteLine("...success");
-            
         }
     }
 }

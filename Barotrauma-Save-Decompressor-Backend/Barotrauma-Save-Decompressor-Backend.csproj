@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <RootNamespace>Barotrauma_Save_Decompressor_Backend</RootNamespace>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
-        <ApplicationVersion>1.3.0.0</ApplicationVersion>
+        <ApplicationVersion>1.5.0.0</ApplicationVersion>
     </PropertyGroup>
 
     <ItemGroup>

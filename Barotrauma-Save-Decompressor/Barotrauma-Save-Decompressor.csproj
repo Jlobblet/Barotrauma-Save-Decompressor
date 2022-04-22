@@ -1,30 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Barotrauma_Save_Decompressor_Form</RootNamespace>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Authors>Jlobblet</Authors>
-    <IsPackable>true</IsPackable>
-    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-    <ApplicationVersion>1.3.0.0</ApplicationVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <RootNamespace>Barotrauma_Save_Decompressor_Form</RootNamespace>
+        <UseWindowsForms>true</UseWindowsForms>
+        <Authors>Jlobblet</Authors>
+        <IsPackable>true</IsPackable>
+        <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+        <ApplicationVersion>1.5.0.0</ApplicationVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAPICodePack-Core" Version="1.1.0.2" />
-    <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0-preview.8.20407.11" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.8.20407.11" />
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0-preview.8.20407.11" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.WindowsAPICodePack-Core" Version="1.1.0.2"/>
+        <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0"/>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0-preview.8.20407.11"/>
+        <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.8.20407.11"/>
+        <PackageReference Include="System.Resources.Extensions" Version="5.0.0-preview.8.20407.11"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Barotrauma-Save-Decompressor-Backend\Barotrauma-Save-Decompressor-Backend.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Barotrauma-Save-Decompressor-Backend\Barotrauma-Save-Decompressor-Backend.csproj"/>
+    </ItemGroup>
 
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <PropertyGroup>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
 
 </Project>
