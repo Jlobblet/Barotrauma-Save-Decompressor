@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;net6.0;net6.0-windows</TargetFrameworks>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <RootNamespace>Barotrauma_Save_Decompressor_Backend</RootNamespace>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
         <ApplicationVersion>1.5.0.0</ApplicationVersion>
